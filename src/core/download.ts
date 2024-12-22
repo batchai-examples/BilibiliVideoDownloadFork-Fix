@@ -57,12 +57,17 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
       fs.mkdirSync(`${videoInfo.fileDir}`, {
         recursive: true
       })
+      if (!fs.existsSync(videoInfo.fileDir))
+      {
+        throw new Error('文件夹无法创建')
+      }
       log.info(`文件夹创建成功：${videoInfo.fileDir}`)
     } else {
       log.info(`文件夹已存在：${videoInfo.fileDir}`)
     }
   } catch (error) {
     log.error(`创建文件夹失败：${error}`)
+    throw new Error(`创建文件夹失败：${error}`)
   }
   // }
   // 下载封面
