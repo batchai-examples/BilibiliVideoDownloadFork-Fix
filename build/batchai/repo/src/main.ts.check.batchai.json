@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "import { createApp } from 'vue'\nimport { pinia } from './store'\nimport App from './App.vue'\nimport router from './router'\nimport Antd from 'ant-design-vue'\nimport 'ant-design-vue/dist/antd.less'\nimport './assets/style/main.less'\n\nconst app = createApp(App)\napp.use(router)\napp.use(Antd)\napp.use(pinia)\napp.mount('#app')\n",
+    "original_code": "import { createApp } from 'vue'\nimport { pinia } from './store'\nimport App from './App.vue'\nimport router from './router'\nimport Antd from 'ant-design-vue'\nimport 'ant-design-vue/dist/antd.less'\nimport './assets/style/main.less'\n\nconst app = createApp(App)\napp.use(router)\napp.use(Antd)\napp.use(pinia)\napp.mount('#app')\n",
+    "path": "src/main.ts",
+    "model_usage_metrics": {
+        "Duration": 1199099126,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

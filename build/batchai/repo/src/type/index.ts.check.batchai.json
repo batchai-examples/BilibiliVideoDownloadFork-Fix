@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "export interface SettingData {\n  downloadPath: string,\n  SESSDATA: string,\n  isMerge: boolean,\n  isDelete: boolean,\n  bfeId: string,\n  isSubtitle: boolean,\n  isDanmaku: boolean,\n  isFolder: boolean,\n  isCover: boolean,\n  downloadingMaxSize: number,\n  face: string\n}\n\nexport interface SettingDataEasy {\n  downloadPath?: string,\n  SESSDATA?: string,\n  isMerge?: boolean,\n  isDelete?: boolean,\n  bfeId?: string,\n  isSubtitle?: boolean,\n  isDanmaku?: boolean,\n  isFolder?: boolean,\n  downloadingMaxSize?: number\n}\n\nexport enum LoginStatus {\n  visitor,\n  user,\n  vip\n}\n\nexport interface UP {\n  name: string,\n  mid: number\n}\n\nexport interface QualityItem {\n  label: string,\n  value: number\n}\n\nexport interface Page {\n  title: string,\n  url: string,\n  bvid: string,\n  cid: number,\n  duration: string,\n  page: number,\n  // 合集名称\n  collectionName?: string\n  // 徽章 视频需要vip的话该值会是“会员”\n  badge?: string\n  epTitle?: string\n}\n\nexport interface Subtitle {\n  title: string,\n  url: string\n}\n\nexport interface Video {\n  id: number,\n  cid: number,\n  url: string\n}\n\nexport interface Audio {\n  id: number,\n  cid: number,\n  url: string\n}\n\nexport interface DownloadUrl {\n  video: string,\n  audio: string\n}\n\nexport interface VideoData {\n  id: string,\n  title: string,\n  url: string,\n  bvid: string,\n  cid: number,\n  cover: string,\n  createdTime: number,\n  quality: number,\n  view: number,\n  danmaku: number,\n  reply: number,\n  duration: string,\n  up: UP[],\n  qualityOptions: QualityItem[],\n  page: Page[],\n  subtitle: Subtitle[],\n  video: Video[],\n  audio: Audio[],\n  filePathList: string[],\n  fileDir: string,\n  size: number,\n  downloadUrl: DownloadUrl\n}\n\nexport interface TaskData extends VideoData {\n  status: number,\n  progress: number\n}\n\nexport type TaskList = Map\u003cstring, TaskData\u003e\n",
+    "original_code": "export interface SettingData {\n  downloadPath: string,\n  SESSDATA: string,\n  isMerge: boolean,\n  isDelete: boolean,\n  bfeId: string,\n  isSubtitle: boolean,\n  isDanmaku: boolean,\n  isFolder: boolean,\n  isCover: boolean,\n  downloadingMaxSize: number,\n  face: string\n}\n\nexport interface SettingDataEasy {\n  downloadPath?: string,\n  SESSDATA?: string,\n  isMerge?: boolean,\n  isDelete?: boolean,\n  bfeId?: string,\n  isSubtitle?: boolean,\n  isDanmaku?: boolean,\n  isFolder?: boolean,\n  downloadingMaxSize?: number\n}\n\nexport enum LoginStatus {\n  visitor,\n  user,\n  vip\n}\n\nexport interface UP {\n  name: string,\n  mid: number\n}\n\nexport interface QualityItem {\n  label: string,\n  value: number\n}\n\nexport interface Page {\n  title: string,\n  url: string,\n  bvid: string,\n  cid: number,\n  duration: string,\n  page: number,\n  // 合集名称\n  collectionName?: string\n  // 徽章 视频需要vip的话该值会是“会员”\n  badge?: string\n  epTitle?: string\n}\n\nexport interface Subtitle {\n  title: string,\n  url: string\n}\n\nexport interface Video {\n  id: number,\n  cid: number,\n  url: string\n}\n\nexport interface Audio {\n  id: number,\n  cid: number,\n  url: string\n}\n\nexport interface DownloadUrl {\n  video: string,\n  audio: string\n}\n\nexport interface VideoData {\n  id: string,\n  title: string,\n  url: string,\n  bvid: string,\n  cid: number,\n  cover: string,\n  createdTime: number,\n  quality: number,\n  view: number,\n  danmaku: number,\n  reply: number,\n  duration: string,\n  up: UP[],\n  qualityOptions: QualityItem[],\n  page: Page[],\n  subtitle: Subtitle[],\n  video: Video[],\n  audio: Audio[],\n  filePathList: string[],\n  fileDir: string,\n  size: number,\n  downloadUrl: DownloadUrl\n}\n\nexport interface TaskData extends VideoData {\n  status: number,\n  progress: number\n}\n\nexport type TaskList = Map\u003cstring, TaskData\u003e\n",
+    "path": "src/type/index.ts",
+    "model_usage_metrics": {
+        "Duration": 1734097903,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "使用 'any' 类型",
+            "detailed_explaination": "'any' 类型会导致类型安全性降低，建议使用更具体的类型。",
+            "suggestion": "请为 'electron' 和 'log' 属性指定更具体的类型。",
+            "issue_line_begin": 2,
+            "issue_line_end": 4,
+            "issue_reference_urls": [
+                "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any"
+            ],
+            "severity": "minor",
+            "severity_reason": "使用 'any' 类型会导致潜在的类型错误，影响代码的可维护性。"
+        }
+    ],
+    "fixed_code": "declare interface Window {\n  electron: Electron; // 假设 Electron 是一个具体的类型\n  log: Logger; // 假设 Logger 是一个具体的类型\n}\n",
+    "original_code": "declare interface Window {\n  electron: any\n  log: any\n}\n",
+    "path": "src/typing.d.ts",
+    "model_usage_metrics": {
+        "Duration": 4175105318,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

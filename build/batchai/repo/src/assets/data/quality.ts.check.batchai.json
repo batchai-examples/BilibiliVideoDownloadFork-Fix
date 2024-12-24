@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "const qualityMap = {\n  127: '👑8K超高清',\n  126: '👑杜比视界',\n  125: '👑HDR真彩',\n  120: '👑4K超清',\n  116: '👑1080P60帧',\n  112: '👑1080P+高码率',\n  80: '1080P',\n  74: '720P60帧',\n  64: '720P',\n  32: '480P清晰',\n  16: '320P流畅'\n}\n\nconst resolution = {\n  127: {\n    width: 7680,\n    height: 4320\n  },\n  126: {\n    width: 4096,\n    height: 2160\n  },\n  125: {\n    width: 4096,\n    height: 2160\n  },\n  120: {\n    width: 4096,\n    height: 2160\n  },\n  116: {\n    width: 1920,\n    height: 1080\n  },\n  112: {\n    width: 1920,\n    height: 1080\n  },\n  80: {\n    width: 1920,\n    height: 1080\n  },\n  74: {\n    width: 1280,\n    height: 720\n  },\n  64: {\n    width: 1280,\n    height: 720\n  },\n  32: {\n    width: 855,\n    height: 480\n  },\n  16: {\n    width: 640,\n    height: 360\n  }\n}\n\nconst userQuality = {\n  0: [16, 32],\n  1: [16, 32, 64, 80],\n  2: [16, 32, 64, 74, 80, 112, 116, 120, 125, 126, 127]\n}\n\nexport {\n  qualityMap,\n  userQuality,\n  resolution\n}\n",
+    "original_code": "const qualityMap = {\n  127: '👑8K超高清',\n  126: '👑杜比视界',\n  125: '👑HDR真彩',\n  120: '👑4K超清',\n  116: '👑1080P60帧',\n  112: '👑1080P+高码率',\n  80: '1080P',\n  74: '720P60帧',\n  64: '720P',\n  32: '480P清晰',\n  16: '320P流畅'\n}\n\nconst resolution = {\n  127: {\n    width: 7680,\n    height: 4320\n  },\n  126: {\n    width: 4096,\n    height: 2160\n  },\n  125: {\n    width: 4096,\n    height: 2160\n  },\n  120: {\n    width: 4096,\n    height: 2160\n  },\n  116: {\n    width: 1920,\n    height: 1080\n  },\n  112: {\n    width: 1920,\n    height: 1080\n  },\n  80: {\n    width: 1920,\n    height: 1080\n  },\n  74: {\n    width: 1280,\n    height: 720\n  },\n  64: {\n    width: 1280,\n    height: 720\n  },\n  32: {\n    width: 855,\n    height: 480\n  },\n  16: {\n    width: 640,\n    height: 360\n  }\n}\n\nconst userQuality = {\n  0: [16, 32],\n  1: [16, 32, 64, 80],\n  2: [16, 32, 64, 74, 80, 112, 116, 120, 125, 126, 127]\n}\n\nexport {\n  qualityMap,\n  userQuality,\n  resolution\n}\n",
+    "path": "src/assets/data/quality.ts",
+    "model_usage_metrics": {
+        "Duration": 1079796675,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

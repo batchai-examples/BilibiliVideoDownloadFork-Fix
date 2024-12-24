@@ -1,0 +1,39 @@
+{
+    "has_issue": true,
+    "overall_severity": "major",
+    "issues": [
+        {
+            "short_description": "未处理的 Promise 拒绝",
+            "detailed_explaination": "在 `getWbiKeys` 函数中，使用了 `await` 关键字来处理异步请求，但没有对可能的错误进行处理。这可能导致未处理的 Promise 拒绝，从而影响程序的稳定性。",
+            "suggestion": "在 `getWbiKeys` 函数中添加错误处理，例如使用 `try-catch` 块来捕获可能的异常。",
+            "issue_line_begin": 42,
+            "issue_line_end": 42,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+            ],
+            "severity": "major",
+            "severity_reason": "未处理的 Promise 拒绝可能导致程序崩溃或不稳定。"
+        }
+    ],
+    "fixed_code": "import md5 from 'md5'\nimport { randUserAgent } from '../utils'\n\nconst mixinKeyEncTab = [\n  46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49,\n  33, 9, 42, 19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40,\n  61, 26, 17, 0, 1, 60, 51, 30, 4, 22, 25, 54, 21, 56, 59, 6, 63, 57, 62, 11,\n  36, 20, 34, 44, 52\n]\n\n// 对 imgKey 和 subKey 进行字符顺序打乱编码\nconst getMixinKey = (orig: string) =\u003e mixinKeyEncTab.map(n =\u003e orig[n]).join('').slice(0, 32)\n\n// 为请求参数进行 wbi 签名\nexport function encWbi (params: any, img_key: string, sub_key: string) {\n  const mixin_key = getMixinKey(img_key + sub_key)\n  const curr_time = Math.round(Date.now() / 1000)\n  const chr_filter = /[!'()*]/g\n\n  Object.assign(params, { wts: curr_time }) // 添加 wts 字段\n  // 按照 key 重排参数\n  const query = Object\n    .keys(params)\n    .sort()\n    .map(key =\u003e {\n      // 过滤 value 中的 \"!'()*\" 字符\n      const value = params[key].toString().replace(chr_filter, '')\n      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`\n    })\n    .join('\u0026')\n\n  const wbi_sign = md5(query + mixin_key) // 计算 w_rid\n\n  return query + '\u0026w_rid=' + wbi_sign\n}\n\n// 获取最新的 img_key 和 sub_key\nexport async function getWbiKeys (SESSDATA: string) {\n  try {\n    const { body } = await window.electron.got('https://api.bilibili.com/x/web-interface/nav', {\n      headers: {\n        'User-Agent': randUserAgent(),\n        cookie: `SESSDATA=${SESSDATA}`\n      },\n      responseType: 'json'\n    })\n    const { data: { wbi_img: { img_url, sub_url } } } = await body\n\n    return {\n      img_key: img_url.slice(\n        img_url.lastIndexOf('/') + 1,\n        img_url.lastIndexOf('.')\n      ),\n      sub_key: sub_url.slice(\n        sub_url.lastIndexOf('/') + 1,\n        sub_url.lastIndexOf('.')\n      )\n    }\n  } catch (error) {\n    console.error('获取 wbi 密钥时出错:', error)\n    throw error // 重新抛出错误以便调用者处理\n  }\n}\n\n// async function main() {\n//   const web_keys = await getWbiKeys()\n//   const params = { foo: '114', bar: '514', baz: 1919810 },\n//     img_key = web_keys.img_key,\n//     sub_key = web_keys.sub_key\n//   const query = encWbi(params, img_key, sub_key)\n//   console.log(query)\n// }\n\n// main()\n",
+    "original_code": "import md5 from 'md5'\nimport { randUserAgent } from '../utils'\n\nconst mixinKeyEncTab = [\n  46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49,\n  33, 9, 42, 19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40,\n  61, 26, 17, 0, 1, 60, 51, 30, 4, 22, 25, 54, 21, 56, 59, 6, 63, 57, 62, 11,\n  36, 20, 34, 44, 52\n]\n\n// 对 imgKey 和 subKey 进行字符顺序打乱编码\nconst getMixinKey = (orig: string) =\u003e mixinKeyEncTab.map(n =\u003e orig[n]).join('').slice(0, 32)\n\n// 为请求参数进行 wbi 签名\nexport function encWbi (params: any, img_key: string, sub_key: string) {\n  const mixin_key = getMixinKey(img_key + sub_key)\n  const curr_time = Math.round(Date.now() / 1000)\n  const chr_filter = /[!'()*]/g\n\n  Object.assign(params, { wts: curr_time }) // 添加 wts 字段\n  // 按照 key 重排参数\n  const query = Object\n    .keys(params)\n    .sort()\n    .map(key =\u003e {\n      // 过滤 value 中的 \"!'()*\" 字符\n      const value = params[key].toString().replace(chr_filter, '')\n      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`\n    })\n    .join('\u0026')\n\n  const wbi_sign = md5(query + mixin_key) // 计算 w_rid\n\n  return query + '\u0026w_rid=' + wbi_sign\n}\n\n// 获取最新的 img_key 和 sub_key\nexport async function getWbiKeys (SESSDATA: string) {\n  const { body } = await window.electron.got('https://api.bilibili.com/x/web-interface/nav', {\n    headers: {\n      'User-Agent': randUserAgent(),\n      cookie: `SESSDATA=${SESSDATA}`\n    },\n    responseType: 'json'\n  })\n  const { data: { wbi_img: { img_url, sub_url } } } = await body\n\n  return {\n    img_key: img_url.slice(\n      img_url.lastIndexOf('/') + 1,\n      img_url.lastIndexOf('.')\n    ),\n    sub_key: sub_url.slice(\n      sub_url.lastIndexOf('/') + 1,\n      sub_url.lastIndexOf('.')\n    )\n  }\n}\n\n// async function main() {\n//   const web_keys = await getWbiKeys()\n//   const params = { foo: '114', bar: '514', baz: 1919810 },\n//     img_key = web_keys.img_key,\n//     sub_key = web_keys.sub_key\n//   const query = encWbi(params, img_key, sub_key)\n//   console.log(query)\n// }\n\n// main()\n",
+    "path": "src/utils/WBISign.ts",
+    "model_usage_metrics": {
+        "Duration": 19625948208,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

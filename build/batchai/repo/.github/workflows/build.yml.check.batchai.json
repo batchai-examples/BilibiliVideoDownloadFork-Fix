@@ -1,0 +1,39 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "使用过时的 Node.js 版本",
+            "detailed_explaination": "当前使用的 Node.js 版本为 16，建议使用最新的 LTS 版本以获得更好的性能和安全性。",
+            "suggestion": "请将 Node.js 版本更新为最新的 LTS 版本，例如 18 或 20。",
+            "issue_line_begin": 24,
+            "issue_line_end": 26,
+            "issue_reference_urls": [
+                "https://nodejs.org/en/about/releases/"
+            ],
+            "severity": "minor",
+            "severity_reason": "使用过时的 Node.js 版本可能导致安全性和性能问题。"
+        }
+    ],
+    "fixed_code": "# main.yml\n\n# Workflow's name\nname: Build Electron App For Windows/macOs/Ubuntu\n\n# Workflow's trigger\non:\n  push:\n    tags:\n      - \"v*.*.*\"\n  workflow_dispatch:\n\n\n# Workflow's jobs\njobs:\n  # job's id\n  release:\n    # job's name\n    name: build and release electron app\n\n    # the type of machine to run the job on\n    runs-on: ${{ matrix.os }}\n\n    # create a build matrix for jobs\n    strategy:\n      fail-fast: false\n      matrix:\n        # os: [windows-latest, macos-latest, 'ubuntu-latest']\n        # macos-13 is an intel runner, macos-14 is apple silicon\n        os: [ubuntu-latest, windows-latest, macos-13, macos-14]\n\n    # create steps\n    steps:\n      # step1: check out repository\n      - name: Check out git repository\n        uses: actions/checkout@v3\n\n      # step2: install node env\n      - name: Install Node.js\n        uses: actions/setup-node@v3\n        with:\n          node-version: 18  # 更新为最新的 LTS 版本\n\n      # step3: npm install\n      - name: npm install\n        run: |\n          npm install --legacy-peer-deps\n\n      # step4: build app for mac/win/linux\n      - name: Build windows app\n        if: matrix.os == 'windows-latest'\n        run: |\n          npm run electron:build\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build mac intl app\n        if: matrix.os == 'macos-13'\n        run: |\n          npm run electron:build -- --x64\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build mac arm app\n        if: matrix.os == 'macos-14'\n        run: |\n          npm run electron:build -- --arm64\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build ubuntu app\n        if: matrix.os == 'ubuntu-latest'\n        run: |\n          npm run electron:build\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      # step5: cleanup artifacts in dist_electron\n      - name: cleanup artifacts for windows\n        if: matrix.os == 'windows-latest'\n        run: |\n          npx rimraf \"dist_electron/!(*.exe)\"\n\n      - name: cleanup artifacts for macos intel\n        if: matrix.os == 'macos-13'\n        run: |\n          npx rimraf \"dist_electron/!(*.dmg)\"\n\n      - name: cleanup artifacts for macos arm\n        if: matrix.os == 'macos-14'\n        run: |\n          npx rimraf \"dist_electron/!(*.dmg)\"\n\n      - name: cleanup artifacts for ubuntu\n        if: matrix.os == 'ubuntu-latest'\n        run: |\n          npx rimraf \"dist_electron/!(*.AppImage)\"\n\n      # step6: upload artifacts\n      - name: upload artifacts\n        uses: actions/upload-artifact@v3\n        with:\n          name: ${{ matrix.os }}\n          path: dist_electron\n\n      # step7: create release\n      - name: release\n        uses: softprops/action-gh-release@v1\n        if: startsWith(github.ref, 'refs/tags/')\n        with:\n          prerelease: true\n          files: \"dist_electron/**\"\n        env:\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n",
+    "original_code": "# main.yml\n\n# Workflow's name\nname: Build Electron App For Windows/macOs/Ubuntu\n\n# Workflow's trigger\non:\n  push:\n    tags:\n      - \"v*.*.*\"\n  workflow_dispatch:\n\n\n# Workflow's jobs\njobs:\n  # job's id\n  release:\n    # job's name\n    name: build and release electron app\n\n    # the type of machine to run the job on\n    runs-on: ${{ matrix.os }}\n\n    # create a build matrix for jobs\n    strategy:\n      fail-fast: false\n      matrix:\n        # os: [windows-latest, macos-latest, 'ubuntu-latest']\n        # macos-13 is an intel runner, macos-14 is apple silicon\n        os: [ubuntu-latest, windows-latest, macos-13, macos-14]\n\n    # create steps\n    steps:\n      # step1: check out repository\n      - name: Check out git repository\n        uses: actions/checkout@v3\n\n      # step2: install node env\n      - name: Install Node.js\n        uses: actions/setup-node@v3\n        with:\n          node-version: 16\n\n      # step3: npm install\n      - name: npm install\n        run: |\n          npm install --legacy-peer-deps\n\n      # step4: build app for mac/win/linux\n      - name: Build windows app\n        if: matrix.os == 'windows-latest'\n        run: |\n          npm run electron:build\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build mac intl app\n        if: matrix.os == 'macos-13'\n        run: |\n          npm run electron:build -- --x64\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build mac arm app\n        if: matrix.os == 'macos-14'\n        run: |\n          npm run electron:build -- --arm64\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Build ubuntu app\n        if: matrix.os == 'ubuntu-latest'\n        run: |\n          npm run electron:build\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      # step5: cleanup artifacts in dist_electron\n      - name: cleanup artifacts for windows\n        if: matrix.os == 'windows-latest'\n        run: |\n          npx rimraf \"dist_electron/!(*.exe)\"\n\n      - name: cleanup artifacts for macos intel\n        if: matrix.os == 'macos-13'\n        run: |\n          npx rimraf \"dist_electron/!(*.dmg)\"\n\n      - name: cleanup artifacts for macos arm\n        if: matrix.os == 'macos-14'\n        run: |\n          npx rimraf \"dist_electron/!(*.dmg)\"\n\n      - name: cleanup artifacts for ubuntu\n        if: matrix.os == 'ubuntu-latest'\n        run: |\n          npx rimraf \"dist_electron/!(*.AppImage)\"\n\n      # step6: upload artifacts\n      - name: upload artifacts\n        uses: actions/upload-artifact@v3\n        with:\n          name: ${{ matrix.os }}\n          path: dist_electron\n\n      # step7: create release\n      - name: release\n        uses: softprops/action-gh-release@v1\n        if: startsWith(github.ref, 'refs/tags/')\n        with:\n          prerelease: true\n          files: \"dist_electron/**\"\n        env:\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n",
+    "path": ".github/workflows/build.yml",
+    "model_usage_metrics": {
+        "Duration": 11888071413,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

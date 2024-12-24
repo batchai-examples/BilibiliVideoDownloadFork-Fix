@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "/** 兼容v1的API, 仅按精度直接截断数字, 不做四舍五入, 若未达到精度会添加0\n * @param num 数字\n * @param precision 精度\n */\nexport const fixed = (num: number, precision = 1): string =\u003e {\n  const factor = 10 ** precision\n  let str = (Math.trunc(num * factor) / factor).toString()\n  const index = str.indexOf('.')\n  if (index \u003e -1) {\n    const currentPrecision = str.length - index - 1\n    if (currentPrecision \u003c precision) {\n      str += '0'.repeat(precision - currentPrecision)\n    }\n  } else {\n    str += `.${'0'.repeat(precision)}`\n  }\n  return str\n}\n",
+    "original_code": "/** 兼容v1的API, 仅按精度直接截断数字, 不做四舍五入, 若未达到精度会添加0\n * @param num 数字\n * @param precision 精度\n */\nexport const fixed = (num: number, precision = 1): string =\u003e {\n  const factor = 10 ** precision\n  let str = (Math.trunc(num * factor) / factor).toString()\n  const index = str.indexOf('.')\n  if (index \u003e -1) {\n    const currentPrecision = str.length - index - 1\n    if (currentPrecision \u003c precision) {\n      str += '0'.repeat(precision - currentPrecision)\n    }\n  } else {\n    str += `.${'0'.repeat(precision)}`\n  }\n  return str\n}\n",
+    "path": "src/core/danmaku/utils/fixed.ts",
+    "model_usage_metrics": {
+        "Duration": 948606549,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

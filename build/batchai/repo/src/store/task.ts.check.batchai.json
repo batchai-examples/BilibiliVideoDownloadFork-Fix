@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "import { defineStore } from 'pinia'\nimport { TaskList, TaskData } from '../type'\nimport { taskData } from '../assets/data/default'\n\nexport const taskStore = defineStore('task', {\n  state: () =\u003e {\n    const taskList: TaskList = new Map()\n    const rightTaskId = ''\n    return {\n      taskList,\n      rightTaskId\n    }\n  },\n  getters: {\n    rightTask (state) {\n      const task = state.taskList.get(state.rightTaskId)\n      if (state.rightTaskId \u0026\u0026 task) {\n        return task\n      } else {\n        return taskData\n      }\n    },\n    taskListArray (state) {\n      return Array.from(state.taskList)\n    }\n  },\n  actions: {\n    setTaskList (taskList: TaskList) {\n      this.taskList = taskList\n    },\n    getTask (id: string) {\n      return this.taskList.get(id)\n    },\n    setTask (taskList: TaskData[], isSyncMainStore = true) {\n      taskList.forEach(task =\u003e {\n        this.taskList.set(task.id, task)\n        if (isSyncMainStore) {\n          // 修改electron-store\n          const path = `taskList.${task.id}`\n          window.electron.setStore(path, task)\n        }\n      })\n    },\n    setTaskEasy (taskList: TaskData[]) {\n      taskList.forEach(task =\u003e {\n        this.taskList.set(task.id, task)\n      })\n    },\n    deleteTask (list: string[]) {\n      list.forEach(id =\u003e {\n        this.taskList.delete(id)\n        // 修改electron-store\n        const path = `taskList.${id}`\n        window.electron.deleteStore(path)\n      })\n    },\n    has (id: string) {\n      return this.taskList.has(id)\n    },\n    setRightTaskId (id: string) {\n      this.rightTaskId = id\n    }\n  }\n})\n",
+    "original_code": "import { defineStore } from 'pinia'\nimport { TaskList, TaskData } from '../type'\nimport { taskData } from '../assets/data/default'\n\nexport const taskStore = defineStore('task', {\n  state: () =\u003e {\n    const taskList: TaskList = new Map()\n    const rightTaskId = ''\n    return {\n      taskList,\n      rightTaskId\n    }\n  },\n  getters: {\n    rightTask (state) {\n      const task = state.taskList.get(state.rightTaskId)\n      if (state.rightTaskId \u0026\u0026 task) {\n        return task\n      } else {\n        return taskData\n      }\n    },\n    taskListArray (state) {\n      return Array.from(state.taskList)\n    }\n  },\n  actions: {\n    setTaskList (taskList: TaskList) {\n      this.taskList = taskList\n    },\n    getTask (id: string) {\n      return this.taskList.get(id)\n    },\n    setTask (taskList: TaskData[], isSyncMainStore = true) {\n      taskList.forEach(task =\u003e {\n        this.taskList.set(task.id, task)\n        if (isSyncMainStore) {\n          // 修改electron-store\n          const path = `taskList.${task.id}`\n          window.electron.setStore(path, task)\n        }\n      })\n    },\n    setTaskEasy (taskList: TaskData[]) {\n      taskList.forEach(task =\u003e {\n        this.taskList.set(task.id, task)\n      })\n    },\n    deleteTask (list: string[]) {\n      list.forEach(id =\u003e {\n        this.taskList.delete(id)\n        // 修改electron-store\n        const path = `taskList.${id}`\n        window.electron.deleteStore(path)\n      })\n    },\n    has (id: string) {\n      return this.taskList.has(id)\n    },\n    setRightTaskId (id: string) {\n      this.rightTaskId = id\n    }\n  }\n})\n",
+    "path": "src/store/task.ts",
+    "model_usage_metrics": {
+        "Duration": 2501740540,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

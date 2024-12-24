@@ -1,0 +1,51 @@
+{
+    "has_issue": true,
+    "overall_severity": "major",
+    "issues": [
+        {
+            "short_description": "类型不匹配",
+            "detailed_explaination": "在 BasicDanmakuData 接口中，type 属性被定义为字符串，但在 Danmaku 类的构造函数中，type 被解析为整数。这可能导致类型不一致的问题。",
+            "suggestion": "将 BasicDanmakuData 接口中的 type 属性更改为 number 类型，或者在 Danmaku 类中保持 type 为字符串并移除 parseInt。",
+            "issue_line_begin": 6,
+            "issue_line_end": 6,
+            "issue_reference_urls": [
+                "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+            ],
+            "severity": "major",
+            "severity_reason": "类型不匹配可能导致运行时错误，影响程序的稳定性。"
+        },
+        {
+            "short_description": "颜色属性类型不一致",
+            "detailed_explaination": "在 BasicDanmakuData 接口中，color 属性被定义为字符串，但在 Danmaku 类的构造函数中，color 被解析为整数。这可能导致类型不一致的问题。",
+            "suggestion": "将 BasicDanmakuData 接口中的 color 属性更改为 number 类型，或者在 Danmaku 类中保持 color 为字符串并移除 parseInt。",
+            "issue_line_begin": 7,
+            "issue_line_end": 7,
+            "issue_reference_urls": [
+                "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+            ],
+            "severity": "major",
+            "severity_reason": "类型不匹配可能导致运行时错误，影响程序的稳定性。"
+        }
+    ],
+    "fixed_code": "import { DanmakuType } from './danmaku-type'\n\nexport interface BasicDanmakuData {\n  content: string\n  time: string\n  type: number // 修改为 number 类型\n  fontSize: string\n  color: number // 修改为 number 类型\n}\nexport class Danmaku {\n  content: string\n  time: string\n  startTime: number\n  type: DanmakuType\n  fontSize: number\n  color: number\n  constructor ({\n    content, time, type, fontSize, color\n  }: BasicDanmakuData) {\n    this.content = content\n    this.time = time\n    this.startTime = parseFloat(time)\n    this.type = type; // 直接使用 type\n    this.fontSize = parseFloat(fontSize)\n    this.color = color; // 直接使用 color\n  }\n}\n",
+    "original_code": "import { DanmakuType } from './danmaku-type'\n\nexport interface BasicDanmakuData {\n  content: string\n  time: string\n  type: string\n  fontSize: string\n  color: string\n}\nexport class Danmaku {\n  content: string\n  time: string\n  startTime: number\n  type: DanmakuType\n  fontSize: number\n  color: number\n  constructor ({\n    content, time, type, fontSize, color\n  }: BasicDanmakuData) {\n    this.content = content\n    this.time = time\n    this.startTime = parseFloat(time)\n    this.type = parseInt(type)\n    this.fontSize = parseFloat(fontSize)\n    this.color = parseInt(color)\n  }\n}\n",
+    "path": "src/core/danmaku/danmaku-data.ts",
+    "model_usage_metrics": {
+        "Duration": 6649899270,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

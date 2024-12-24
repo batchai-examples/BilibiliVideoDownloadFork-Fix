@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "const normalizeMap = {\n  '\u0026#38;': '\u0026',\n  '\u0026lt;': '\u003c',\n  '\u0026gt;': '\u003e',\n  '\u0026#34;': '\"',\n  '\u0026#39;': \"'\"\n}\nconst escapeMap = Object.fromEntries(Object.entries(normalizeMap).map(entry =\u003e entry.reverse()))\nconst replace = (content: string, map: Record\u003cstring, string\u003e) =\u003e {\n  for (const [key, value] of Object.entries(map)) {\n    content = content.replace(new RegExp(key, 'g'), value)\n  }\n  return content\n}\n\nexport const escapeContent = (content: string) =\u003e replace(content, escapeMap)\nexport const normalizeContent = (content: string) =\u003e replace(content, normalizeMap)\n",
+    "original_code": "const normalizeMap = {\n  '\u0026#38;': '\u0026',\n  '\u0026lt;': '\u003c',\n  '\u0026gt;': '\u003e',\n  '\u0026#34;': '\"',\n  '\u0026#39;': \"'\"\n}\nconst escapeMap = Object.fromEntries(Object.entries(normalizeMap).map(entry =\u003e entry.reverse()))\nconst replace = (content: string, map: Record\u003cstring, string\u003e) =\u003e {\n  for (const [key, value] of Object.entries(map)) {\n    content = content.replace(new RegExp(key, 'g'), value)\n  }\n  return content\n}\n\nexport const escapeContent = (content: string) =\u003e replace(content, escapeMap)\nexport const normalizeContent = (content: string) =\u003e replace(content, normalizeMap)\n",
+    "path": "src/core/danmaku/xml-utils.ts",
+    "model_usage_metrics": {
+        "Duration": 837055661,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

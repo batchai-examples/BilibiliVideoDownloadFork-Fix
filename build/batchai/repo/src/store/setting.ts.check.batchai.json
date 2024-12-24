@@ -1,0 +1,51 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "未处理的潜在异常",
+            "detailed_explaination": "在 setDownloadPath、setSESSDATA、setIsMerge、setIsDelete、setBfeId、setIsSubtitle、setIsDanmaku、setIsFolder、setIsCover、setDownloadingMaxSize 和 setFace 方法中，调用 window.electron.setStore 时未处理可能的异常。这可能导致应用程序在设置存储时崩溃。",
+            "suggestion": "在调用 window.electron.setStore 方法时，添加 try-catch 块以捕获并处理可能的异常。",
+            "issue_line_begin": 20,
+            "issue_line_end": 20,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch"
+            ],
+            "severity": "minor",
+            "severity_reason": "虽然是潜在问题，但不影响当前功能。"
+        },
+        {
+            "short_description": "未处理的潜在异常",
+            "detailed_explaination": "在 setSetting 方法中，调用 window.electron.setStore 时未处理可能的异常。这可能导致应用程序在设置存储时崩溃。",
+            "suggestion": "在调用 window.electron.setStore 方法时，添加 try-catch 块以捕获并处理可能的异常。",
+            "issue_line_begin": 54,
+            "issue_line_end": 54,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch"
+            ],
+            "severity": "minor",
+            "severity_reason": "虽然是潜在问题，但不影响当前功能。"
+        }
+    ],
+    "fixed_code": "import { defineStore } from 'pinia'\nimport { isUndefined } from 'lodash'\nimport { SettingData, SettingDataEasy } from '../type/index'\n\nexport const settingStore = defineStore('setting', {\n  state: () =\u003e {\n    const setting: SettingData = {\n      downloadPath: '',\n      SESSDATA: '',\n      isMerge: true,\n      isDelete: true,\n      bfeId: '',\n      isSubtitle: true,\n      isDanmaku: true,\n      isFolder: true,\n      isCover: true,\n      downloadingMaxSize: 5,\n      face: ''\n    }\n    return setting\n  },\n  getters: {\n    getSetting: (state) =\u003e ({\n      downloadPath: state.downloadPath,\n      SESSDATA: state.SESSDATA,\n      isMerge: state.isMerge,\n      isDelete: state.isDelete,\n      bfeId: state.bfeId,\n      isSubtitle: state.isSubtitle,\n      isDanmaku: state.isDanmaku,\n      isFolder: state.isFolder,\n      isCover: state.isCover,\n      downloadingMaxSize: state.downloadingMaxSize\n    })\n  },\n  actions: {\n    setDownloadPath (path: string) {\n      this.downloadPath = path\n      try {\n        window.electron.setStore('setting.downloadPath', path)\n      } catch (error) {\n        console.error('设置下载路径时出错:', error)\n      }\n    },\n    setSESSDATA (SESSDATA: string) {\n      this.SESSDATA = SESSDATA\n      try {\n        window.electron.setStore('setting.SESSDATA', SESSDATA)\n      } catch (error) {\n        console.error('设置 SESSDATA 时出错:', error)\n      }\n    },\n    setIsMerge (data: boolean) {\n      this.isMerge = data\n      try {\n        window.electron.setStore('setting.isMerge', data)\n      } catch (error) {\n        console.error('设置合并选项时出错:', error)\n      }\n    },\n    setIsDelete (data: boolean) {\n      this.isDelete = data\n      try {\n        window.electron.setStore('setting.isDelete', data)\n      } catch (error) {\n        console.error('设置删除选项时出错:', error)\n      }\n    },\n    setBfeId (bfeId: string) {\n      this.bfeId = bfeId\n      try {\n        window.electron.setStore('setting.bfeId', bfeId)\n      } catch (error) {\n        console.error('设置 BfeId 时出错:', error)\n      }\n    },\n    setIsSubtitle (data: boolean) {\n      this.isSubtitle = data\n      try {\n        window.electron.setStore('setting.isSubtitle', data)\n      } catch (error) {\n        console.error('设置字幕选项时出错:', error)\n      }\n    },\n    setIsDanmaku (data: boolean) {\n      this.isDanmaku = data\n      try {\n        window.electron.setStore('setting.isDanmaku', data)\n      } catch (error) {\n        console.error('设置弹幕选项时出错:', error)\n      }\n    },\n    setIsFolder (data: boolean) {\n      this.isFolder = data\n      try {\n        window.electron.setStore('setting.isFolder', data)\n      } catch (error) {\n        console.error('设置文件夹选项时出错:', error)\n      }\n    },\n    setIsCover (data: boolean) {\n      this.isCover = data\n      try {\n        window.electron.setStore('setting.isCover', data)\n      } catch (error) {\n        console.error('设置封面选项时出错:', error)\n      }\n    },\n    setDownloadingMaxSize (size: number) {\n      this.downloadingMaxSize = size\n      try {\n        window.electron.setStore('setting.downloadingMaxSize', size)\n      } catch (error) {\n        console.error('设置下载最大大小时出错:', error)\n      }\n    },\n    setFace (url: string) {\n      this.face = url || ''\n      try {\n        window.electron.setStore('setting.face', url)\n      } catch (error) {\n        console.error('设置头像时出错:', error)\n      }\n    },\n    setSetting (setting: SettingDataEasy) {\n      const allSetting = this.getSetting\n      for (const key in allSetting) {\n        if (!isUndefined(setting[key])) {\n          allSetting[key] = setting[key]\n          this[key] = setting[key]\n        }\n      }\n      try {\n        window.electron.setStore('setting', allSetting)\n      } catch (error) {\n        console.error('设置所有选项时出错:', error)\n      }\n    }\n  }\n})\n",
+    "original_code": "import { defineStore } from 'pinia'\nimport { isUndefined } from 'lodash'\nimport { SettingData, SettingDataEasy } from '../type/index'\n\nexport const settingStore = defineStore('setting', {\n  state: () =\u003e {\n    const setting: SettingData = {\n      downloadPath: '',\n      SESSDATA: '',\n      isMerge: true,\n      isDelete: true,\n      bfeId: '',\n      isSubtitle: true,\n      isDanmaku: true,\n      isFolder: true,\n      isCover: true,\n      downloadingMaxSize: 5,\n      face: ''\n    }\n    return setting\n  },\n  getters: {\n    getSetting: (state) =\u003e ({\n      downloadPath: state.downloadPath,\n      SESSDATA: state.SESSDATA,\n      isMerge: state.isMerge,\n      isDelete: state.isDelete,\n      bfeId: state.bfeId,\n      isSubtitle: state.isSubtitle,\n      isDanmaku: state.isDanmaku,\n      isFolder: state.isFolder,\n      isCover: state.isCover,\n      downloadingMaxSize: state.downloadingMaxSize\n    })\n  },\n  actions: {\n    setDownloadPath (path: string) {\n      this.downloadPath = path\n      window.electron.setStore('setting.downloadPath', path)\n    },\n    setSESSDATA (SESSDATA: string) {\n      this.SESSDATA = SESSDATA\n      window.electron.setStore('setting.SESSDATA', SESSDATA)\n    },\n    setIsMerge (data: boolean) {\n      this.isMerge = data\n      window.electron.setStore('setting.isMerge', data)\n    },\n    setIsDelete (data: boolean) {\n      this.isDelete = data\n      window.electron.setStore('setting.isDelete', data)\n    },\n    setBfeId (bfeId: string) {\n      this.bfeId = bfeId\n      window.electron.setStore('setting.bfeId', bfeId)\n    },\n    setIsSubtitle (data: boolean) {\n      this.isSubtitle = data\n      window.electron.setStore('setting.isSubtitle', data)\n    },\n    setIsDanmaku (data: boolean) {\n      this.isDanmaku = data\n      window.electron.setStore('setting.isDanmaku', data)\n    },\n    setIsFolder (data: boolean) {\n      this.isFolder = data\n      window.electron.setStore('setting.isFolder', data)\n    },\n    setIsCover (data: boolean) {\n      this.isCover = data\n      window.electron.setStore('setting.isCover', data)\n    },\n    setDownloadingMaxSize (size: number) {\n      this.downloadingMaxSize = size\n      window.electron.setStore('setting.downloadingMaxSize', size)\n    },\n    setFace (url: string) {\n      this.face = url || ''\n      window.electron.setStore('setting.face', url)\n    },\n    setSetting (setting: SettingDataEasy) {\n      const allSetting = this.getSetting\n      for (const key in allSetting) {\n        if (!isUndefined(setting[key])) {\n          allSetting[key] = setting[key]\n          this[key] = setting[key]\n        }\n      }\n      window.electron.setStore('setting', allSetting)\n    }\n  }\n})\n",
+    "path": "src/store/setting.ts",
+    "model_usage_metrics": {
+        "Duration": 24567937500,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

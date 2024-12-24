@@ -1,0 +1,51 @@
+{
+    "has_issue": true,
+    "overall_severity": "major",
+    "issues": [
+        {
+            "short_description": "未处理的Promise拒绝",
+            "detailed_explaination": "在`getSubtitleData`函数中，`await got(...)`可能会抛出错误，但没有适当的错误处理。这可能导致未处理的Promise拒绝，影响程序的稳定性。",
+            "suggestion": "在`getSubtitleData`函数中添加try-catch块来处理可能的错误。",
+            "issue_line_begin": 14,
+            "issue_line_end": 14,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise#%E6%9C%AA%E5%88%86%E5%88%86%E8%BF%9B%E7%9A%84Promise%E6%8B%92%E7%BB%9D"
+            ],
+            "severity": "major",
+            "severity_reason": "未处理的Promise拒绝可能导致程序崩溃或不可预测的行为。"
+        },
+        {
+            "short_description": "缺少返回值的类型注解",
+            "detailed_explaination": "在`formatSeconds`和`handleSubtitleData`函数中，缺少返回值的类型注解。这可能导致类型不明确，影响代码的可读性和可维护性。",
+            "suggestion": "为`formatSeconds`和`handleSubtitleData`函数添加返回值的类型注解，例如`string`。",
+            "issue_line_begin": 39,
+            "issue_line_end": 39,
+            "issue_reference_urls": [
+                "https://www.typescriptlang.org/docs/handbook/2/functions.html#return-types"
+            ],
+            "severity": "minor",
+            "severity_reason": "虽然缺少返回值类型注解不会导致程序错误，但会影响代码的可读性和类型安全。"
+        }
+    ],
+    "fixed_code": "import { randUserAgent } from '../utils'\nimport { Subtitle } from '../type'\n\nconst got = require('got')\nconst fs = require('fs-extra')\n\nexport const downloadSubtitle = (fileName: string, list: Subtitle[]) =\u003e {\n  const plist = []\n  for (const element of list) {\n    plist.push(\n      getSubtitleData(element.url, `${fileName}-${element.title}.srt`)\n    )\n  }\n  return Promise.all(plist)\n}\n\nconst getSubtitleData = async (url: string, path: string) =\u003e {\n  try {\n    const { body: { body } } = await got(`https:${url}`, {\n      headers: {\n        'User-Agent': randUserAgent()\n      },\n      responseType: 'json'\n    })\n    const str = handleSubtitleData(body)\n    await createFile(path, str)\n  } catch (err) {\n    console.error('获取字幕数据失败:', err)\n  }\n}\n\nconst handleSubtitleData = (subtitle: any[]): string =\u003e {\n  let str = ''\n  subtitle.forEach((element, index) =\u003e {\n    const form = String(element.from).split('.')\n    const to = String(element.to).split('.')\n    str += `${index + 1}\\n${formatSeconds(Number(form[0]))},${form[1] ? form[1] : '0'} --\u003e ${formatSeconds(Number(to[0]))},${to[1] ? to[1] : '0'}\\n${element.content}\\n\\n`\n  })\n  return str\n}\n\nconst formatSeconds = (value: number): string =\u003e {\n  const result = Math.floor(value)\n  const h = Math.floor(result / 3600) \u003c 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600)\n  const m = Math.floor((result / 60 % 60)) \u003c 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60))\n  const s = Math.floor((result % 60)) \u003c 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60))\n  let res = ''\n  res += `${h}:`\n  res += `${m}:`\n  res += `${s}`\n  return res\n}\n\nconst createFile = async (path: string, data: string) =\u003e {\n  try {\n    await fs.writeFile(path, data, { encoding: 'utf8' })\n    console.log('success')\n  } catch (err) {\n    console.error('写入文件失败:', err)\n  }\n}\n",
+    "original_code": "import { randUserAgent } from '../utils'\nimport { Subtitle } from '../type'\n\nconst got = require('got')\nconst fs = require('fs-extra')\n\nexport const downloadSubtitle = (fileName: string, list: Subtitle[]) =\u003e {\n  const plist = []\n  for (const element of list) {\n    plist.push(\n      getSubtitleData(element.url, `${fileName}-${element.title}.srt`)\n    )\n  }\n  return Promise.all(plist)\n}\n\nconst getSubtitleData = async (url: string, path: string) =\u003e {\n  const { body: { body } } = await got(`https:${url}`, {\n    headers: {\n      'User-Agent': randUserAgent()\n    },\n    responseType: 'json'\n  })\n  const str = handleSubtitleData(body)\n  await createFile(path, str)\n}\n\nconst handleSubtitleData = (subtitle: any[]) =\u003e {\n  let str = ''\n  subtitle.forEach((element, index) =\u003e {\n    const form = String(element.from).split('.')\n    const to = String(element.to).split('.')\n    str += `${index + 1}\\n${formatSeconds(Number(form[0]))},${form[1] ? form[1] : '0'} --\u003e ${formatSeconds(Number(to[0]))},${to[1] ? to[1] : '0'}\\n${element.content}\\n\\n`\n  })\n  return str\n}\n\nconst formatSeconds = (value: number) =\u003e {\n  const result = Math.floor(value)\n  const h = Math.floor(result / 3600) \u003c 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600)\n  const m = Math.floor((result / 60 % 60)) \u003c 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60))\n  const s = Math.floor((result % 60)) \u003c 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60))\n  let res = ''\n  res += `${h}:`\n  res += `${m}:`\n  res += `${s}`\n  return res\n}\n\nconst createFile = async (path: string, data: string) =\u003e {\n  try {\n    await fs.writeFile(path, data, { encoding: 'utf8' })\n    console.log('success')\n  } catch (err) {\n    console.error('写入文件失败:', err)\n  }\n}\n",
+    "path": "src/core/subtitle.ts",
+    "model_usage_metrics": {
+        "Duration": 15897025734,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

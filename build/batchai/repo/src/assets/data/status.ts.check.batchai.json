@@ -1,0 +1,51 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "常量命名不符合约定",
+            "detailed_explaination": "在 JavaScript 中，常量通常使用全大写字母命名，单词之间用下划线分隔。STATUS 常量的命名不符合这一约定。",
+            "suggestion": "将 STATUS 更改为 STATUS_MAP 或 STATUS_CONSTANTS，以更好地反映其用途。",
+            "issue_line_begin": 1,
+            "issue_line_end": 1,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Glossary/Constant"
+            ],
+            "severity": "minor",
+            "severity_reason": "常量命名不符合通用约定，可能导致代码可读性降低。"
+        },
+        {
+            "short_description": "缺少类型注释",
+            "detailed_explaination": "在 TypeScript 中，建议为对象和常量添加类型注释，以提高代码的可读性和可维护性。",
+            "suggestion": "为 STATUS 和 downloadStatusMap 添加类型注释。",
+            "issue_line_begin": 1,
+            "issue_line_end": 1,
+            "issue_reference_urls": [
+                "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+            ],
+            "severity": "minor",
+            "severity_reason": "缺少类型注释可能导致类型不明确，影响代码的可维护性。"
+        }
+    ],
+    "fixed_code": "const STATUS_MAP = {\n  /** 已完成 */\n  COMPLETED: 0,\n  /** 准备开始下载 */\n  PLAN_START: 6,\n  /** 视频下载中 */\n  VIDEO_DOWNLOADING: 1,\n  /** 音频下载中 */\n  AUDIO_DOWNLOADING: 2,\n  /** 合并中 */\n  MERGING: 3,\n  /** 排队中 */\n  PENDING: 4,\n  /** 失败 */\n  FAIL: 5\n}\n\nconst downloadStatusMap: { [key: number]: { label: string; value: string } } = {\n  [STATUS_MAP.COMPLETED]: {\n    label: '已完成',\n    value: 'success'\n  },\n  [STATUS_MAP.PLAN_START]: {\n    label: '准备开始下载',\n    value: 'active'\n  },\n  [STATUS_MAP.VIDEO_DOWNLOADING]: {\n    label: '视频下载中',\n    value: 'active'\n  },\n  [STATUS_MAP.AUDIO_DOWNLOADING]: {\n    label: '音频下载中',\n    value: 'active'\n  },\n  [STATUS_MAP.MERGING]: {\n    label: '视频合成中',\n    value: 'active'\n  },\n  [STATUS_MAP.PENDING]: {\n    label: '排队中',\n    value: 'active'\n  },\n  [STATUS_MAP.FAIL]: {\n    label: '下载失败',\n    value: 'exception'\n  }\n}\n\nexport {\n  downloadStatusMap,\n  STATUS_MAP\n}\n",
+    "original_code": "const STATUS = {\n  /** 已完成 */\n  COMPLETED: 0,\n  /** 准备开始下载 */\n  PLAN_START: 6,\n  /** 视频下载中 */\n  VIDEO_DOWNLOADING: 1,\n  /** 音频下载中 */\n  AUDIO_DOWNLOADING: 2,\n  /** 合并中 */\n  MERGING: 3,\n  /** 排队中 */\n  PENDING: 4,\n  /** 失败 */\n  FAIL: 5\n}\n\nconst downloadStatusMap = {\n  [STATUS.COMPLETED]: {\n    label: '已完成',\n    value: 'success'\n  },\n  [STATUS.PLAN_START]: {\n    label: '准备开始下载',\n    value: 'active'\n  },\n  [STATUS.VIDEO_DOWNLOADING]: {\n    label: '视频下载中',\n    value: 'active'\n  },\n  [STATUS.AUDIO_DOWNLOADING]: {\n    label: '音频下载中',\n    value: 'active'\n  },\n  [STATUS.MERGING]: {\n    label: '视频合成中',\n    value: 'active'\n  },\n  [STATUS.PENDING]: {\n    label: '排队中',\n    value: 'active'\n  },\n  [STATUS.FAIL]: {\n    label: '下载失败',\n    value: 'exception'\n  }\n}\n\nexport {\n  downloadStatusMap,\n  STATUS\n}\n",
+    "path": "src/assets/data/status.ts",
+    "model_usage_metrics": {
+        "Duration": 10715039912,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

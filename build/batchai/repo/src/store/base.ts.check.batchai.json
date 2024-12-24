@@ -1,0 +1,39 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "未使用的 getter",
+            "detailed_explaination": "在定义的 store 中，getters 对象是空的，意味着没有定义任何 getter。这可能导致代码冗余。",
+            "suggestion": "如果不需要 getter，可以考虑删除 getters 对象。如果需要，可以添加相应的 getter。",
+            "issue_line_begin": 12,
+            "issue_line_end": 12,
+            "issue_reference_urls": [
+                "https://pinia.vuejs.org/core-concepts/getters.html"
+            ],
+            "severity": "minor",
+            "severity_reason": "虽然没有直接影响功能，但空的 getters 会导致代码冗余，影响可读性。"
+        }
+    ],
+    "fixed_code": "import { defineStore } from 'pinia'\n\ninterface BaseData {\n  loginStatus: 0 | 1 | 2,\n  downloadingTaskCount: number,\n  allowLogin: boolean\n}\n\nexport const baseStore = defineStore('base', {\n  state: () =\u003e {\n    const base: BaseData = {\n      // 登录状态 0: 游客 1：普通用户 2：大会员\n      loginStatus: 0,\n      // 当前正在下载任务数量\n      downloadingTaskCount: 0,\n      // 是否需要登录\n      allowLogin: true\n    }\n    return base\n  },\n  actions: {\n    setLoginStatus (status: 0 | 1 | 2) {\n      this.loginStatus = status\n    },\n    setDownloadingTaskCount (num: number) {\n      this.downloadingTaskCount = num\n    },\n    reduceDownloadingTaskCount (count: number) {\n      if (this.downloadingTaskCount) {\n        this.downloadingTaskCount -= count\n      }\n    },\n    addDownloadingTaskCount (count: number) {\n      this.downloadingTaskCount += count\n    },\n    setAllowLogin (flag: boolean) {\n      this.allowLogin = flag\n    }\n  }\n})\n",
+    "original_code": "import { defineStore } from 'pinia'\n\ninterface BaseData {\n  loginStatus: 0 | 1 | 2,\n  downloadingTaskCount: number,\n  allowLogin: boolean\n}\n\nexport const baseStore = defineStore('base', {\n  state: () =\u003e {\n    const base: BaseData = {\n      // 登录状态 0: 游客 1：普通用户 2：大会员\n      loginStatus: 0,\n      // 当前正在下载任务数量\n      downloadingTaskCount: 0,\n      // 是否需要登录\n      allowLogin: true\n    }\n    return base\n  },\n  getters: {},\n  actions: {\n    setLoginStatus (status: 0 | 1 | 2) {\n      this.loginStatus = status\n    },\n    setDownloadingTaskCount (num: number) {\n      this.downloadingTaskCount = num\n    },\n    reduceDownloadingTaskCount (count: number) {\n      if (this.downloadingTaskCount) {\n        this.downloadingTaskCount -= count\n      }\n    },\n    addDownloadingTaskCount (count: number) {\n      this.downloadingTaskCount += count\n    },\n    setAllowLogin (flag: boolean) {\n      this.allowLogin = flag\n    }\n  }\n})\n",
+    "path": "src/store/base.ts",
+    "model_usage_metrics": {
+        "Duration": 6514771014,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

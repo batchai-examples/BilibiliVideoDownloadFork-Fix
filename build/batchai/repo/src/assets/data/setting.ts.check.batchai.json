@@ -1,0 +1,39 @@
+{
+    "has_issue": true,
+    "overall_severity": "minor",
+    "issues": [
+        {
+            "short_description": "缺少下载地址的验证",
+            "detailed_explaination": "在设置下载地址时，缺少对下载地址格式的验证，可能导致用户输入无效地址。",
+            "suggestion": "建议在下载地址的设置中添加格式验证，例如使用正则表达式检查URL格式。",
+            "issue_line_begin": 24,
+            "issue_line_end": 29,
+            "issue_reference_urls": [
+                "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp"
+            ],
+            "severity": "minor",
+            "severity_reason": "虽然是一个功能性问题，但不影响现有代码的运行。"
+        }
+    ],
+    "fixed_code": "const formConfig = [\n  {\n    label: '登录状态',\n    type: 'status',\n    name: '',\n    tips: '登录后账号是普通账号最大下载1080P视频，大会员可以下载4K视频，不登录最大下载480P视频'\n  },\n  {\n    label: '下载地址',\n    placeholder: '请设置下载地址',\n    type: 'downloadPath',\n    name: 'downloadPath',\n    tips: '没有设置下载地址不能下载'\n  },\n  {\n    label: '最大下载数',\n    type: 'slider',\n    name: 'downloadingMaxSize',\n    tips: '没有选择同时下载的最大下载数不能下载'\n  },\n  {\n    label: '下载成功后是否进行转码合并',\n    type: 'switch',\n    name: 'isMerge',\n    tips: '下载的源文件是音视频分离的m4s文件，故需要合并'\n  },\n  {\n    label: '下载成功后是否删除原视频',\n    type: 'switch',\n    name: 'isDelete',\n    tips: '删除合并前的m4s文件'\n  },\n  {\n    label: '下载到单独文件夹',\n    type: 'switch',\n    name: 'isFolder',\n    tips: '开启后每个任务会下载到一个单独的文件夹里面'\n  },\n  {\n    label: '下载字幕',\n    type: 'switch',\n    name: 'isSubtitle',\n    tips: '开启后如果检测到当前下载视频有字幕则会下载'\n  },\n  {\n    label: '下载弹幕',\n    type: 'switch',\n    name: 'isDanmaku',\n    tips: '开启后会下载视频当前弹幕'\n  },\n  {\n    label: '下载封面',\n    type: 'switch',\n    name: 'isCover',\n    tips: '开启后会下载视频封面'\n  }\n]\n\nconst settingData = {\n  downloadPath: '',\n  isMerge: true,\n  isDelete: true,\n  isSubtitle: true,\n  isDanmaku: true,\n  isFolder: true,\n  isCover: true,\n  downloadingMaxSize: 5\n}\n\nconst settingRules = {\n  downloadPath: [\n    {\n      required: true,\n      message: '请设置下载地址',\n      validator: (rule, value) =\u003e {\n        const urlPattern = /^(ftp|http|https):\\/\\/[^ \"]+$/;\n        if (!urlPattern.test(value)) {\n          return Promise.reject('下载地址格式不正确');\n        }\n        return Promise.resolve();\n      }\n    }\n  ],\n  downloadingMaxSize: [\n    {\n      required: true,\n      message: '请选择同时下载的最大下载数'\n    }\n  ],\n  isMerge: [\n    {\n      required: false\n    }\n  ],\n  isDelete: [\n    {\n      required: false\n    }\n  ],\n  isFolder: [\n    {\n      required: false\n    }\n  ],\n  isSubtitle: [\n    {\n      required: false\n    }\n  ],\n  isDanmaku: [\n    {\n      required: false\n    }\n  ],\n  isCover: [\n    {\n      required: false\n    }\n  ]\n}\n\nconst formItemLayout = { span: 24, offset: 0 }\n\nconst loginStatusText = ['未登录', '普通用户', '大会员']\n\nexport {\n  settingData,\n  formConfig,\n  formItemLayout,\n  settingRules,\n  loginStatusText\n}\n",
+    "original_code": "const formConfig = [\n  {\n    label: '登录状态',\n    type: 'status',\n    name: '',\n    tips: '登录后账号是普通账号最大下载1080P视频，大会员可以下载4K视频，不登录最大下载480P视频'\n  },\n  {\n    label: '下载地址',\n    placeholder: '请设置下载地址',\n    type: 'downloadPath',\n    name: 'downloadPath',\n    tips: '没有设置下载地址不能下载'\n  },\n  {\n    label: '最大下载数',\n    type: 'slider',\n    name: 'downloadingMaxSize',\n    tips: '没有选择同时下载的最大下载数不能下载'\n  },\n  {\n    label: '下载成功后是否进行转码合并',\n    type: 'switch',\n    name: 'isMerge',\n    tips: '下载的源文件是音视频分离的m4s文件，故需要合并'\n  },\n  {\n    label: '下载成功后是否删除原视频',\n    type: 'switch',\n    name: 'isDelete',\n    tips: '删除合并前的m4s文件'\n  },\n  {\n    label: '下载到单独文件夹',\n    type: 'switch',\n    name: 'isFolder',\n    tips: '开启后每个任务会下载到一个单独的文件夹里面'\n  },\n  {\n    label: '下载字幕',\n    type: 'switch',\n    name: 'isSubtitle',\n    tips: '开启后如果检测到当前下载视频有字幕则会下载'\n  },\n  {\n    label: '下载弹幕',\n    type: 'switch',\n    name: 'isDanmaku',\n    tips: '开启后会下载视频当前弹幕'\n  },\n  {\n    label: '下载封面',\n    type: 'switch',\n    name: 'isCover',\n    tips: '开启后会下载视频封面'\n  }\n]\n\nconst settingData = {\n  downloadPath: '',\n  isMerge: true,\n  isDelete: true,\n  isSubtitle: true,\n  isDanmaku: true,\n  isFolder: true,\n  isCover: true,\n  downloadingMaxSize: 5\n}\n\nconst settingRules = {\n  downloadPath: [\n    {\n      required: true,\n      message: '请设置下载地址'\n    }\n  ],\n  downloadingMaxSize: [\n    {\n      required: true,\n      message: '请选择同时下载的最大下载数'\n    }\n  ],\n  isMerge: [\n    {\n      required: false\n    }\n  ],\n  isDelete: [\n    {\n      required: false\n    }\n  ],\n  isFolder: [\n    {\n      required: false\n    }\n  ],\n  isSubtitle: [\n    {\n      required: false\n    }\n  ],\n  isDanmaku: [\n    {\n      required: false\n    }\n  ],\n  isCover: [\n    {\n      required: false\n    }\n  ]\n}\n\nconst formItemLayout = { span: 24, offset: 0 }\n\nconst loginStatusText = ['未登录', '普通用户', '大会员']\n\nexport {\n  settingData,\n  formConfig,\n  formItemLayout,\n  settingRules,\n  loginStatusText\n}\n",
+    "path": "src/assets/data/setting.ts",
+    "model_usage_metrics": {
+        "Duration": 16484372749,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

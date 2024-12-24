@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "import { createPinia, Pinia } from 'pinia'\nimport { baseStore } from './base'\nimport { settingStore } from './setting'\nimport { taskStore } from './task'\n\nexport const pinia = createPinia()\n\n// 组件内使用不需要传pinia，组件外使用需要传pinia\nexport const store = {\n  baseStore: (pinia?: Pinia) =\u003e baseStore(pinia),\n  settingStore: (pinia?: Pinia) =\u003e settingStore(pinia),\n  taskStore: (pinia?: Pinia) =\u003e taskStore(pinia)\n}\n",
+    "original_code": "import { createPinia, Pinia } from 'pinia'\nimport { baseStore } from './base'\nimport { settingStore } from './setting'\nimport { taskStore } from './task'\n\nexport const pinia = createPinia()\n\n// 组件内使用不需要传pinia，组件外使用需要传pinia\nexport const store = {\n  baseStore: (pinia?: Pinia) =\u003e baseStore(pinia),\n  settingStore: (pinia?: Pinia) =\u003e settingStore(pinia),\n  taskStore: (pinia?: Pinia) =\u003e taskStore(pinia)\n}\n",
+    "path": "src/store/index.ts",
+    "model_usage_metrics": {
+        "Duration": 937200464,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

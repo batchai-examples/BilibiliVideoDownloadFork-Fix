@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "export const formatSecond = (duration: number) =\u003e {\n  const hours = Math.floor(duration / 3600)\n  const minus = Math.floor((duration - (hours * 3600)) / 60)\n  const seconds = Math.floor(duration - (minus * 60) - (hours * 3600))\n  return `${hours \u003e 9 ? hours : '0' + hours}:${minus \u003e 9 ? minus : '0' + minus}:${seconds \u003e 9 ? seconds : '0' + seconds}`\n}\n",
+    "original_code": "export const formatSecond = (duration: number) =\u003e {\n  const hours = Math.floor(duration / 3600)\n  const minus = Math.floor((duration - (hours * 3600)) / 60)\n  const seconds = Math.floor(duration - (minus * 60) - (hours * 3600))\n  return `${hours \u003e 9 ? hours : '0' + hours}:${minus \u003e 9 ? minus : '0' + minus}:${seconds \u003e 9 ? seconds : '0' + seconds}`\n}\n",
+    "path": "src/utils/formatSecond.ts",
+    "model_usage_metrics": {
+        "Duration": 862302887,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "has_issue": false,
+    "overall_severity": "",
+    "issues": [],
+    "fixed_code": "import { VideoData, SettingData, TaskData } from '../../type'\n\nexport const videoData: VideoData = {\n  id: '',\n  title: '',\n  url: '',\n  bvid: '',\n  cid: -1,\n  cover: '',\n  createdTime: -1,\n  quality: -1,\n  view: -1,\n  danmaku: -1,\n  reply: -1,\n  duration: '',\n  up: [],\n  qualityOptions: [],\n  page: [],\n  subtitle: [],\n  video: [],\n  audio: [],\n  filePathList: [],\n  fileDir: '',\n  size: -1,\n  downloadUrl: {\n    audio: '',\n    video: ''\n  }\n}\n\nexport const settingData: SettingData = {\n  downloadPath: '',\n  SESSDATA: '',\n  isMerge: true,\n  isDelete: true,\n  bfeId: '',\n  isSubtitle: true,\n  isDanmaku: true,\n  isFolder: true,\n  isCover: true,\n  downloadingMaxSize: 5,\n  face: ''\n}\n\nexport const taskData: TaskData = {\n  ...videoData,\n  status: -1,\n  progress: -1\n}\n",
+    "original_code": "import { VideoData, SettingData, TaskData } from '../../type'\n\nexport const videoData: VideoData = {\n  id: '',\n  title: '',\n  url: '',\n  bvid: '',\n  cid: -1,\n  cover: '',\n  createdTime: -1,\n  quality: -1,\n  view: -1,\n  danmaku: -1,\n  reply: -1,\n  duration: '',\n  up: [],\n  qualityOptions: [],\n  page: [],\n  subtitle: [],\n  video: [],\n  audio: [],\n  filePathList: [],\n  fileDir: '',\n  size: -1,\n  downloadUrl: {\n    audio: '',\n    video: ''\n  }\n}\n\nexport const settingData: SettingData = {\n  downloadPath: '',\n  SESSDATA: '',\n  isMerge: true,\n  isDelete: true,\n  bfeId: '',\n  isSubtitle: true,\n  isDanmaku: true,\n  isFolder: true,\n  isCover: true,\n  downloadingMaxSize: 5,\n  face: ''\n}\n\nexport const taskData: TaskData = {\n  ...videoData,\n  status: -1,\n  progress: -1\n}\n",
+    "path": "src/assets/data/default.ts",
+    "model_usage_metrics": {
+        "Duration": 1294056595,
+        "OpenAiUsage": {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "completion_tokens_details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+                "audio_tokens": 0,
+                "cached_tokens": 0
+            }
+        }
+    }
+}
